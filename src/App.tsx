@@ -1,14 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { About } from "./components/About";
-import { Cta } from "./components/Cta";
 import { FAQ } from "./components/FAQ";
 import { Features } from "./components/Features";
-import { Footer } from "./components/Footer";
 import { Hero } from "./components/Hero";
 import { Benefits } from "./components/Benefits";
 import { Navbar } from "./components/Navbar";
 import { Testimonials } from "./components/Testimonials";
-import { ScrollToTop } from "./components/ScrollToTop";
 import { Pricing } from "./components/Pricing";
 import { WaitlistForm } from "./components/WaitlistForm";
 import { StickyBar } from "./components/StickyBar";
