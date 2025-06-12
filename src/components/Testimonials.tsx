@@ -109,7 +109,7 @@ export function Testimonials() {
         <div className="mt-16 text-center">
           <div className="inline-flex items-center justify-center px-6 py-3 bg-primary/10 rounded-full">
             <span className="text-primary font-medium">
-              Join 10,000+ satisfied users
+              Join thousands of satisfied users
             </span>
           </div>
         </div>

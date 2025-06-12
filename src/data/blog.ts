@@ -1,3 +1,10 @@
+export interface Author {
+  name: string;
+  role: string;
+  image: string;
+  bio: string;
+}
+
 export interface BlogPost {
   id: number;
   slug: string;
@@ -8,9 +15,7 @@ export interface BlogPost {
   category: string;
   readTime: string;
   date: string;
-  author: string;
-  authorRole: string;
-  authorBio: string;
+  author: Author;
 }
 
 export const blogPosts: BlogPost[] = [
@@ -33,9 +38,12 @@ The future of fitness is here, and it's powered by AI.`,
     category: "Technology",
     readTime: "5 min read",
     date: "March 15, 2024",
-    author: "Dr. Sarah Chen",
-    authorRole: "AI Research Lead",
-    authorBio: "Dr. Sarah Chen is a leading expert in AI and fitness technology, with over 10 years of experience in developing AI solutions for the health and fitness industry. Her research focuses on making personalized training accessible to everyone through innovative technology.",
+    author: {
+      name: "Dr. Sarah Johnson",
+      role: "AI Research Lead",
+      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
+      bio: "Dr. Sarah Johnson is a leading expert in AI and fitness technology with over 10 years of experience in the field."
+    }
   },
   {
     id: 2,
@@ -55,9 +63,12 @@ This article explores how these scientific principles are integrated into modern
     category: "Fitness",
     readTime: "7 min read",
     date: "March 12, 2024",
-    author: "Mike Johnson",
-    authorRole: "Head of Training Science",
-    authorBio: "Mike Johnson is a certified strength and conditioning specialist with a background in exercise physiology. He has helped thousands of athletes and fitness enthusiasts achieve their goals through science-based training methods.",
+    author: {
+      name: "Mike Thompson",
+      role: "Head of Fitness Science",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
+      bio: "Mike Thompson is a certified fitness trainer and exercise science researcher with a passion for optimizing workout effectiveness."
+    }
   },
   {
     id: 3,
@@ -77,8 +88,11 @@ Learn how to fuel your body for maximum performance and recovery.`,
     category: "Nutrition",
     readTime: "6 min read",
     date: "March 10, 2024",
-    author: "Lisa Martinez",
-    authorRole: "Sports Nutritionist",
-    authorBio: "Lisa Martinez is a registered dietitian and sports nutritionist with expertise in performance nutrition. She has worked with professional athletes and fitness enthusiasts to optimize their nutrition for peak performance.",
+    author: {
+      name: "Lisa Chen",
+      role: "Nutrition Specialist",
+      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      bio: "Lisa Chen is a registered dietitian and sports nutrition expert who helps athletes and fitness enthusiasts optimize their performance through proper nutrition."
+    }
   },
 ]; 

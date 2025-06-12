@@ -8,7 +8,7 @@ export function BlogPost() {
   const post = blogPosts.find(post => post.slug === slug);
 
   if (!post) {
-    return <Navigate to="/blog" replace />;
+    return <Navigate to="/" replace />;
   }
 
   const handleShare = async () => {
@@ -35,11 +35,11 @@ export function BlogPost() {
         {/* Header */}
         <div className="flex items-center justify-between mb-12">
           <Link 
-            to="/blog" 
+            to="/" 
             className="flex items-center text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Blog
+            Back to Home
           </Link>
           <Button
             variant="outline"
@@ -76,8 +76,8 @@ export function BlogPost() {
           <div className="flex items-center justify-center gap-4 mb-8">
             <div className="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-800" />
             <div className="text-left">
-              <p className="font-medium">{post.author}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">{post.authorRole}</p>
+              <p className="font-medium">{post.author.name}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{post.author.role}</p>
             </div>
           </div>
           
@@ -101,11 +101,15 @@ export function BlogPost() {
           {/* Author Bio */}
           <div className="mt-16 p-6 bg-white dark:bg-gray-950 rounded-2xl shadow-sm">
             <div className="flex items-start gap-4">
-              <div className="w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-800" />
+              <img
+                src={post.author.image}
+                alt={post.author.name}
+                className="w-16 h-16 rounded-full"
+              />
               <div>
-                <h3 className="text-xl font-bold mb-2">About {post.author}</h3>
+                <h3 className="text-xl font-bold mb-2">About {post.author.name}</h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  {post.authorBio}
+                  {post.author.bio}
                 </p>
               </div>
             </div>

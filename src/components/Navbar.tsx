@@ -1,179 +1,99 @@
 import { useState } from "react";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
-import { buttonVariants } from "./ui/button";
 import { Menu } from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
-import { LogoIcon } from "./Icons";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 interface RouteProps {
   href: string;
   label: string;
-  isExternal?: boolean;
 }
 
 const routeList: RouteProps[] = [
-  {
-    href: "#features",
-    label: "Features",
-  },
-  {
-    href: "#benefits",
-    label: "Benefits",
-  },
-  {
-    href: "#testimonials",
-    label: "Testimonials",
-  },
-  {
-    href: "#pricing",
-    label: "Pricing",
-  },
-  {
-    href: "#faq",
-    label: "FAQ",
-  },
-  {
-    href: "/blog",
-    label: "Blog",
-    isExternal: true,
-  },
+  { href: "#features", label: "Features" },
+  { href: "#benefits", label: "Benefits" },
+  { href: "#testimonials", label: "Testimonials" },
+  { href: "#pricing", label: "Pricing" },
+  { href: "#faq", label: "FAQ" },
 ];
 
 const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
   e.preventDefault();
   const element = document.querySelector(href);
   if (element) {
-    const offset = 80; // Adjust this value based on your navbar height
+    const navbarHeight = 80; // Height of the fixed navbar
     const elementPosition = element.getBoundingClientRect().top;
-    const offsetPosition = elementPosition + window.pageYOffset - offset;
+    const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
 
     window.scrollTo({
       top: offsetPosition,
-      behavior: "smooth"
+      behavior: "smooth",
     });
   }
 };
 
-export function Navbar() {
+export const Navbar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <header className="sticky border-b-[1px] top-0 z-40 w-full bg-white dark:border-b-slate-700 dark:bg-background">
-      <NavigationMenu className="mx-auto">
-        <NavigationMenuList className="container h-14 px-4 w-screen flex justify-between">
-          <NavigationMenuItem className="font-bold flex">
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-              className="ml-2 font-bold text-xl flex items-center gap-2"
+    <header className="fixed top-0 left-0 right-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 items-center">
+        <Link
+          to="/"
+          className="mr-6 flex items-center space-x-2"
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        >
+          <span className="font-bold">AI Trainer</span>
+        </Link>
+        <nav className="hidden md:flex gap-6">
+          {routeList.map((route) => (
+            <Link
+              key={route.href}
+              to={route.href}
+              className="text-sm font-medium transition-colors hover:text-primary"
+              onClick={(e) => scrollToSection(e, route.href)}
             >
-              <LogoIcon />
-              AI Trainer
-            </a>
-          </NavigationMenuItem>
-
-          {/* mobile */}
-          <span className="flex md:hidden">
+              {route.label}
+            </Link>
+          ))}
+        </nav>
+        <div className="flex flex-1 items-center justify-end space-x-4">
+          <nav className="flex items-center space-x-2">
             <ModeToggle />
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <SheetTrigger className="px-2">
-                <Menu
-                  className="flex md:hidden h-5 w-5"
-                  onClick={() => setIsOpen(true)}
-                >
-                  <span className="sr-only">Menu Icon</span>
-                </Menu>
-              </SheetTrigger>
-
-              <SheetContent side={"left"}>
-                <SheetHeader>
-                  <SheetTitle className="font-bold text-xl">
-                    AI Trainer
-                  </SheetTitle>
-                </SheetHeader>
-                <nav className="flex flex-col justify-center items-center gap-2 mt-4">
-                  {routeList.map((route) => (
-                    <Link
-                      key={route.href}
-                      to={route.isExternal ? route.href : "#"}
-                      onClick={(e) => {
-                        if (!route.isExternal) {
-                          e.preventDefault();
-                          scrollToSection(e, route.href);
-                        }
-                        setIsOpen(false);
-                      }}
-                      className="block px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary"
-                    >
-                      {route.label}
-                    </Link>
-                  ))}
-                  <a
-                    rel="noreferrer noopener"
-                    href="https://github.com/leoMirandaa/shadcn-landing-page.git"
-                    target="_blank"
-                    className={`w-[110px] border ${buttonVariants({
-                      variant: "secondary",
-                    })}`}
-                  >
-                    <GitHubLogoIcon className="mr-2 w-5 h-5" />
-                    Github
-                  </a>
-                </nav>
-              </SheetContent>
-            </Sheet>
-          </span>
-
-          {/* desktop */}
-          <nav className="hidden md:flex gap-2">
+          </nav>
+        </div>
+        <Button
+          variant="ghost"
+          className="md:hidden"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <Menu className="h-6 w-6" />
+          <span className="sr-only">Toggle menu</span>
+        </Button>
+      </div>
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
+        <SheetContent side="right">
+          <nav className="flex flex-col gap-4">
             {routeList.map((route) => (
               <Link
                 key={route.href}
-                to={route.isExternal ? route.href : "#"}
+                to={route.href}
+                className="text-sm font-medium transition-colors hover:text-primary"
                 onClick={(e) => {
-                  if (!route.isExternal) {
-                    e.preventDefault();
-                    scrollToSection(e, route.href);
-                  }
+                  scrollToSection(e, route.href);
+                  setIsOpen(false);
                 }}
-                className="text-sm font-medium text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary"
               >
                 {route.label}
               </Link>
             ))}
           </nav>
-
-          <div className="hidden md:flex gap-2">
-            <a
-              rel="noreferrer noopener"
-              href="https://github.com/leoMirandaa/shadcn-landing-page.git"
-              target="_blank"
-              className={`border ${buttonVariants({ variant: "secondary" })}`}
-            >
-              <GitHubLogoIcon className="mr-2 w-5 h-5" />
-              Github
-            </a>
-            <ModeToggle />
-          </div>
-        </NavigationMenuList>
-      </NavigationMenu>
+        </SheetContent>
+      </Sheet>
     </header>
   );
-}
+};

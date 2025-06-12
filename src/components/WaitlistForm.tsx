@@ -8,17 +8,42 @@ export function WaitlistForm() {
   const [name, setName] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // TODO: Integrate with email marketing service
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    setIsSubmitted(true);
-    setIsLoading(false);
+    setError("");
+
+    try {
+      const response = await fetch(
+        `https://api.telegram.org/bot7299128096:AAFiBZ0vJW933yGZ4XhOh6eyueQjxSrqG1I/sendMessage`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            chat_id: "-1002879295773", // Replace with your chat ID (e.g., -123456789)
+            text: `New Subscriber:\nName: ${name}\nEmail: ${email}`,
+          }),
+        }
+      );
+
+      const data = await response.json();
+      if (data.ok) {
+        setIsSubmitted(true);
+        setName("");
+        setEmail("");
+      } else {
+        throw new Error(data.description || "Failed to send to Telegram");
+      }
+    } catch (err) {
+      setError("Error submitting form. Please try again.");
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (isSubmitted) {
@@ -70,6 +95,7 @@ export function WaitlistForm() {
         >
           {isLoading ? "Joining..." : "Join Now"}
         </Button>
+        {error && <p className="text-sm text-red-500 text-center">{error}</p>}
         <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
           Be the first to try our AI trainer! No spam, cancel anytime.
         </p>
@@ -98,4 +124,4 @@ export function WaitlistForm() {
       </div>
     </div>
   );
-} 
+}

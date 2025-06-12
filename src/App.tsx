@@ -9,7 +9,6 @@ import { Pricing } from "./components/Pricing";
 import { WaitlistForm } from "./components/WaitlistForm";
 import { StickyBar } from "./components/StickyBar";
 import { BlogPreview } from "./components/BlogPreview";
-import { Blog } from "./pages/Blog";
 import { BlogPost } from "./pages/BlogPost";
 import "./App.css";
 
@@ -60,7 +59,6 @@ function App() {
       <div className="min-h-screen bg-background">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
         </Routes>
       </div>

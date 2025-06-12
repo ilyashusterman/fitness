@@ -1,6 +1,7 @@
 {
   "name": "shadcn-landing-page-template",
   "description": "Landing page template utilizing Shadcn, React, Typescript, and Tailwind CSS for rapid development and responsive design.",
+  "homepage": "https://ilyashusterman.github.io/fitness/",
   "author": {
     "name": "Leopoldo Miranda",
     "email": "leomirandadev@gmail.com",
