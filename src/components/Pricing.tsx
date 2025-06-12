@@ -1,147 +1,132 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Button } from "./ui/button";
 import { Check } from "lucide-react";
 
-enum PopularPlanType {
-  NO = 0,
-  YES = 1,
-}
+export function Pricing() {
+  const plans = [
+    {
+      name: "Free",
+      price: "$0",
+      period: "forever",
+      description: "Kickstart your fitness journey with our AI-powered personal trainer at no cost.",
+      features: [
+        "Basic AI-generated fitness programs (up to 1 new plan/month)",
+        "Limited 1v1 tracker check-in channel (3 check-ins/week)",
+        "Basic AI nutrition templates (1 plan/month, no customization)",
+        "Community support via forums",
+      ],
+      cta: "Get Started",
+      popular: false,
+    },
+    {
+      name: "Professional",
+      price: "$12",
+      period: "month",
+      description: "Unlock the full power of your AI trainer with unlimited access to premium features.",
+      features: [
+        "Unlimited AI-generated fitness programs with advanced customization",
+        "Unlimited 1v1 tracker check-in channel with personalized feedback",
+        "Fully customized AI nutrition plans (unlimited, tailored)",
+        "Priority email support and exclusive app updates",
+        "Cancel anytime",
+      ],
+      cta: "Go Pro",
+      popular: true,
+      savings: "Save 20% with yearly billing ($115/year)",
+    },
+    {
+      name: "Lifetime",
+      price: "$249",
+      period: "one-time",
+      description: "Pay once and train forever with lifetime access to all Professional features.",
+      features: [
+        "Everything in the Professional plan, forever",
+        "One-time payment, no recurring fees",
+        "Early access to new features and updates",
+        "Priority email support",
+      ],
+      cta: "Buy Lifetime",
+      popular: false,
+    },
+  ];
 
-interface PricingProps {
-  title: string;
-  popular: PopularPlanType;
-  price: number;
-  description: string;
-  buttonText: string;
-  benefitList: string[];
-}
-
-const pricingList: PricingProps[] = [
-  {
-    title: "Free",
-    popular: 0,
-    price: 0,
-    description:
-      "Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.",
-    buttonText: "Get Started",
-    benefitList: [
-      "1 Team member",
-      "2 GB Storage",
-      "Upto 4 pages",
-      "Community support",
-      "lorem ipsum dolor",
-    ],
-  },
-  {
-    title: "Premium",
-    popular: 1,
-    price: 5,
-    description:
-      "Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.",
-    buttonText: "Start Free Trial",
-    benefitList: [
-      "4 Team member",
-      "4 GB Storage",
-      "Upto 6 pages",
-      "Priority support",
-      "lorem ipsum dolor",
-    ],
-  },
-  {
-    title: "Enterprise",
-    popular: 0,
-    price: 40,
-    description:
-      "Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.",
-    buttonText: "Contact US",
-    benefitList: [
-      "10 Team member",
-      "8 GB Storage",
-      "Upto 10 pages",
-      "Priority support",
-      "lorem ipsum dolor",
-    ],
-  },
-];
-
-export const Pricing = () => {
   return (
-    <section
-      id="pricing"
-      className="container py-24 sm:py-32"
-    >
-      <h2 className="text-3xl md:text-4xl font-bold text-center">
-        Get
-        <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
-          {" "}
-          Unlimited{" "}
-        </span>
-        Access
-      </h2>
-      <h3 className="text-xl text-center text-muted-foreground pt-4 pb-8">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias
-        reiciendis.
-      </h3>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {pricingList.map((pricing: PricingProps) => (
-          <Card
-            key={pricing.title}
-            className={
-              pricing.popular === PopularPlanType.YES
-                ? "drop-shadow-xl shadow-black/10 dark:shadow-white/10"
-                : ""
-            }
-          >
-            <CardHeader>
-              <CardTitle className="flex item-center justify-between">
-                {pricing.title}
-                {pricing.popular === PopularPlanType.YES ? (
-                  <Badge
-                    variant="secondary"
-                    className="text-sm text-primary"
-                  >
-                    Most popular
-                  </Badge>
-                ) : null}
-              </CardTitle>
-              <div>
-                <span className="text-3xl font-bold">${pricing.price}</span>
-                <span className="text-muted-foreground"> /month</span>
-              </div>
+    <section id="pricing" className="py-24 bg-gray-50 dark:bg-gray-900">
+      <div className="container px-4 mx-auto">
+        <div className="max-w-3xl mx-auto text-center mb-16">
+          <h2 className="text-4xl font-bold tracking-tight mb-4">
+            Simple, Transparent Pricing
+          </h2>
+          <p className="text-lg text-gray-600 dark:text-gray-400">
+            Choose the perfect plan for your fitness journey. All plans include access to our core AI-driven features.
+          </p>
+        </div>
 
-              <CardDescription>{pricing.description}</CardDescription>
-            </CardHeader>
-
-            <CardContent>
-              <Button className="w-full">{pricing.buttonText}</Button>
-            </CardContent>
-
-            <hr className="w-4/5 m-auto mb-4" />
-
-            <CardFooter className="flex">
-              <div className="space-y-4">
-                {pricing.benefitList.map((benefit: string) => (
-                  <span
-                    key={benefit}
-                    className="flex"
-                  >
-                    <Check className="text-green-500" />{" "}
-                    <h3 className="ml-2">{benefit}</h3>
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto">
+          {plans.map((plan) => (
+            <div
+              key={plan.name}
+              className={`relative p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-sm ${
+                plan.popular
+                  ? "ring-2 ring-primary dark:ring-primary/50"
+                  : ""
+              }`}
+            >
+              {plan.popular && (
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                  <span className="bg-primary text-white text-sm font-medium px-4 py-1 rounded-full">
+                    Most Popular
                   </span>
-                ))}
+                </div>
+              )}
+
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
+                <div className="flex items-baseline justify-center gap-1">
+                  <span className="text-4xl font-bold">{plan.price}</span>
+                  <span className="text-gray-600 dark:text-gray-400">
+                    /{plan.period}
+                  </span>
+                </div>
+                {plan.savings && (
+                  <p className="mt-2 text-sm text-primary">{plan.savings}</p>
+                )}
               </div>
-            </CardFooter>
-          </Card>
-        ))}
+
+              <p className="text-gray-600 dark:text-gray-400 mb-8 text-center">
+                {plan.description}
+              </p>
+
+              <ul className="space-y-4 mb-8">
+                {plan.features.map((feature) => (
+                  <li key={feature} className="flex items-start">
+                    <Check className="w-5 h-5 text-green-500 mt-1 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700 dark:text-gray-300">
+                      {feature}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              <Button
+                className={`w-full ${
+                  plan.popular
+                    ? "bg-primary hover:bg-primary/90"
+                    : "bg-gray-900 hover:bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600"
+                }`}
+                size="lg"
+              >
+                {plan.cta}
+              </Button>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-16 text-center">
+          <p className="text-gray-600 dark:text-gray-400">
+            All plans include a 14-day free trial. No credit card required.
+          </p>
+        </div>
       </div>
     </section>
   );
-};
+}

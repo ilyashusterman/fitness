@@ -1,99 +1,59 @@
-import { Badge } from "./ui/badge";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import image from "../assets/growth.png";
-import image3 from "../assets/reflecting.png";
-import image4 from "../assets/looking-ahead.png";
+import { Brain, MessageSquare, Utensils } from "lucide-react";
 
-interface FeatureProps {
-  title: string;
-  description: string;
-  image: string;
-}
+export function Features() {
+  const features = [
+    {
+      title: "AI-Powered Fitness Program Builder",
+      description: "Tailored workout plans created by AI based on your goals, fitness level, and equipment. From home workouts to gym routines, we've got you covered.",
+      icon: Brain,
+      benefit: "Personalized, flexible, and beginner-friendly",
+    },
+    {
+      title: "1v1 Tracker Check-in Channel",
+      description: "Stay motivated with AI-driven progress tracking, personalized feedback, and daily check-ins that feel like a real coach.",
+      icon: MessageSquare,
+      benefit: "Accountability and encouragement, anytime",
+    },
+    {
+      title: "AI Nutrition Plan Builder",
+      description: "Custom meal plans designed by AI to match your dietary preferences, goals, and schedule. Healthy eating made simple.",
+      icon: Utensils,
+      benefit: "Easy, sustainable nutrition guidance",
+    },
+  ];
 
-const features: FeatureProps[] = [
-  {
-    title: "Responsive Design",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.",
-    image: image4,
-  },
-  {
-    title: "Intuitive user interface",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.",
-    image: image3,
-  },
-  {
-    title: "AI-Powered insights",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.",
-    image: image,
-  },
-];
-
-const featureList: string[] = [
-  "Dark/Light theme",
-  "Reviews",
-  "Features",
-  "Pricing",
-  "Contact form",
-  "Our team",
-  "Responsive design",
-  "Newsletter",
-  "Minimalist",
-];
-
-export const Features = () => {
   return (
-    <section
-      id="features"
-      className="container py-24 sm:py-32 space-y-8"
-    >
-      <h2 className="text-3xl lg:text-4xl font-bold md:text-center">
-        Many{" "}
-        <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
-          Great Features
-        </span>
-      </h2>
+    <section id="features" className="py-24 bg-white dark:bg-gray-950">
+      <div className="container px-4 mx-auto">
+        <div className="max-w-3xl mx-auto text-center mb-16">
+          <h2 className="text-4xl font-bold tracking-tight mb-4">
+            Everything You Need to Transform Your Fitness
+          </h2>
+          <p className="text-lg text-gray-600 dark:text-gray-400">
+            Our AI-powered platform combines cutting-edge technology with personalized guidance
+          </p>
+        </div>
 
-      <div className="flex flex-wrap md:justify-center gap-4">
-        {featureList.map((feature: string) => (
-          <div key={feature}>
-            <Badge
-              variant="secondary"
-              className="text-sm"
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {features.map((feature, index) => (
+            <div
+              key={index}
+              className="p-8 bg-gray-50 dark:bg-gray-900 rounded-xl"
             >
-              {feature}
-            </Badge>
-          </div>
-        ))}
-      </div>
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {features.map(({ title, description, image }: FeatureProps) => (
-          <Card key={title}>
-            <CardHeader>
-              <CardTitle>{title}</CardTitle>
-            </CardHeader>
-
-            <CardContent>{description}</CardContent>
-
-            <CardFooter>
-              <img
-                src={image}
-                alt="About feature"
-                className="w-[200px] lg:w-[300px] mx-auto"
-              />
-            </CardFooter>
-          </Card>
-        ))}
+              <div className="w-12 h-12 mb-6 flex items-center justify-center bg-primary/10 rounded-lg">
+                <feature.icon className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">{feature.title}</h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
+                {feature.description}
+              </p>
+              <p className="text-sm font-medium text-primary">
+                {feature.benefit}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
-};
+}
