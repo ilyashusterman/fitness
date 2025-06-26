@@ -1,6 +1,5 @@
 import { useInViewAnimation } from "../hooks/useInViewAnimation";
 import { Button } from "./ui/button";
-import { Check } from "lucide-react";
 
 export function Pricing() {
   const plans = [

@@ -44,7 +44,7 @@ export function Hero() {
           <div className="w-full lg:w-1/2 px-4">
             <div className={`relative transition-all duration-700 delay-200 motion-safe:animate-fade-in ${inView ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
               <img
-                src="/ai-trainer-mockup.jpg"
+                src={`${import.meta.env.BASE_URL}ai-trainer-mockup.jpg`}
                 alt="AI Trainer app chat mockup on mobile"
                 className="w-full max-w-full sm:max-w-lg lg:max-w-xl mx-auto rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-800"
                 style={{ background: '#222' }}
