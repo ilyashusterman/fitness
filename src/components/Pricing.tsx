@@ -1,3 +1,4 @@
+import { useInViewAnimation } from "../hooks/useInViewAnimation";
 import { Button } from "./ui/button";
 import { Check } from "lucide-react";
 
@@ -49,27 +50,28 @@ export function Pricing() {
     },
   ];
 
-  return (
-    <section id="pricing" className="py-24 bg-gray-50 dark:bg-gray-900">
-      <div className="container px-4 mx-auto">
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <h2 className="text-4xl font-bold tracking-tight mb-4">
-            Simple, Transparent Pricing
-          </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
-            Choose the perfect plan for your fitness journey. All plans include access to our core AI-driven features.
-          </p>
-        </div>
+  const [ref, inView] = useInViewAnimation();
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto">
-          {plans.map((plan) => (
+  return (
+    <section ref={ref} id="pricing" className="py-24 bg-gray-50 dark:bg-gray-900">
+      <div className="container px-4 md:px-6">
+        <div className={`flex flex-col items-center justify-center space-y-4 text-center mb-12 transition-all duration-700 motion-safe:animate-fade-in ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          <div className="space-y-2">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+              Simple, Transparent Pricing
+            </h2>
+            <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
+              Choose the plan that fits your fitness journey. No hidden fees, cancel anytime.
+            </p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {plans.map((plan, index) => (
             <div
               key={plan.name}
-              className={`relative p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-sm ${
-                plan.popular
-                  ? "ring-2 ring-primary dark:ring-primary/50"
-                  : ""
-              }`}
+              className={`flex flex-col items-center space-y-4 p-8 bg-white dark:bg-gray-800 rounded-lg shadow-sm transition-all duration-700 motion-safe:animate-fade-in ${
+                inView ? `opacity-100 translate-y-0 delay-${(index + 1) * 100}` : "opacity-0 translate-y-8"
+              } hover:scale-105 hover:shadow-xl focus-within:scale-105 focus-within:shadow-xl cursor-pointer`}
             >
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
@@ -79,10 +81,10 @@ export function Pricing() {
                 </div>
               )}
 
+              <h3 className="text-xl font-bold">{plan.name}</h3>
               <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
                 <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-4xl font-bold">{plan.price}</span>
+                  <p className="text-4xl font-extrabold text-primary">{plan.price}</p>
                   <span className="text-gray-600 dark:text-gray-400">
                     /{plan.period}
                   </span>
@@ -92,29 +94,18 @@ export function Pricing() {
                 )}
               </div>
 
-              <p className="text-gray-600 dark:text-gray-400 mb-8 text-center">
-                {plan.description}
-              </p>
+              <p className="text-gray-500 dark:text-gray-400 text-center">{plan.description}</p>
 
-              <ul className="space-y-4 mb-8">
-                {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start">
-                    <Check className="w-5 h-5 text-green-500 mt-1 mr-3 flex-shrink-0" />
-                    <span className="text-gray-700 dark:text-gray-300">
-                      {feature}
-                    </span>
+              <ul className="text-gray-600 dark:text-gray-400 text-left space-y-2">
+                {plan.features.map((feature, i) => (
+                  <li key={i} className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-primary rounded-full inline-block"></span>
+                    {feature}
                   </li>
                 ))}
               </ul>
 
-              <Button
-                className={`w-full ${
-                  plan.popular
-                    ? "bg-primary hover:bg-primary/90"
-                    : "bg-gray-900 hover:bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600"
-                }`}
-                size="lg"
-              >
+              <Button className="w-full mt-4 bg-primary hover:bg-primary/90 transition-transform duration-200 hover:scale-105 focus:scale-105 active:scale-95 shadow-lg">
                 {plan.cta}
               </Button>
             </div>

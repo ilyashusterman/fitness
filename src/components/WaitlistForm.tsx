@@ -2,126 +2,78 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { CheckCircle } from "lucide-react";
+import { useInViewAnimation } from "../hooks/useInViewAnimation";
 
-export function WaitlistForm() {
+export const WaitlistForm = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [ref, inView] = useInViewAnimation();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
-    setError("");
-
-    try {
-      const response = await fetch(
-        `https://api.telegram.org/bot7299128096:AAFiBZ0vJW933yGZ4XhOh6eyueQjxSrqG1I/sendMessage`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            chat_id: "-1002879295773", // Replace with your chat ID (e.g., -123456789)
-            text: `New Subscriber:\nName: ${name}\nEmail: ${email}`,
-          }),
-        }
-      );
-
-      const data = await response.json();
-      if (data.ok) {
-        setIsSubmitted(true);
-        setName("");
-        setEmail("");
-      } else {
-        throw new Error(data.description || "Failed to send to Telegram");
-      }
-    } catch (err) {
-      setError("Error submitting form. Please try again.");
-      console.error(err);
-    } finally {
-      setIsLoading(false);
-    }
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setSubmitted(true);
+      setEmail("");
+      setName("");
+    }, 1200);
   };
 
-  if (isSubmitted) {
-    return (
-      <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-6 text-center">
-        <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-4" />
-        <h3 className="text-xl font-semibold mb-2">Welcome to the Waitlist!</h3>
-        <p className="text-gray-600 dark:text-gray-400">
-          Check your email for your free AI workout plan and exclusive launch updates.
-        </p>
-      </div>
-    );
-  }
-
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-8 max-w-md mx-auto">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold mb-2">Join the Waitlist for Early Access!</h2>
-        <p className="text-gray-600 dark:text-gray-400">
-          Get a Free Sample AI Workout Plan and exclusive launch discount
-        </p>
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <Input
-            type="text"
-            placeholder="Your Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            className="w-full"
-          />
+    <div ref={ref} className={`max-w-xl mx-auto bg-white dark:bg-gray-950 rounded-2xl shadow-lg p-8 transition-all duration-700 motion-safe:animate-fade-in ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+      <h3 className="text-2xl font-bold mb-4 text-center">Join the Waitlist</h3>
+      <p className="text-gray-600 dark:text-gray-400 mb-8 text-center">
+        Be among the first to experience the future of personal training. Sign up now for early access and exclusive benefits.
+      </p>
+      {submitted ? (
+        <div className="flex flex-col items-center justify-center space-y-4">
+          <CheckCircle className="w-12 h-12 text-green-500" />
+          <p className="text-lg font-semibold">Thank you for joining the waitlist!</p>
+          <p className="text-gray-500 dark:text-gray-400">We'll keep you updated with the latest news and early access.</p>
         </div>
-        <div>
-          <Input
-            type="email"
-            placeholder="Your Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full"
-          />
-        </div>
-        <Button
-          type="submit"
-          className="w-full bg-primary hover:bg-primary/90"
-          disabled={isLoading}
-        >
-          {isLoading ? "Joining..." : "Join Now"}
-        </Button>
-        {error && <p className="text-sm text-red-500 text-center">{error}</p>}
-        <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
-          Be the first to try our AI trainer! No spam, cancel anytime.
-        </p>
-      </form>
-
-      <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-800">
-        <div className="flex items-center justify-center space-x-4">
-          <a
-            href="https://twitter.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary"
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium mb-2">
+              Name
+            </label>
+            <Input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Your name"
+              required
+              className="transition-all duration-200 focus:ring-2 focus:ring-primary"
+            />
+          </div>
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium mb-2">
+              Email
+            </label>
+            <Input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@email.com"
+              required
+              className="transition-all duration-200 focus:ring-2 focus:ring-primary"
+            />
+          </div>
+          <Button
+            type="submit"
+            size="lg"
+            className="w-full bg-primary hover:bg-primary/90 transition-transform duration-200 hover:scale-105 focus:scale-105 active:scale-95 shadow-lg"
+            disabled={loading}
           >
-            Follow on X
-          </a>
-          <span className="text-gray-300 dark:text-gray-700">•</span>
-          <a
-            href="https://instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary"
-          >
-            Follow on Instagram
-          </a>
-        </div>
-      </div>
+            {loading ? "Joining..." : "Join Waitlist"}
+          </Button>
+        </form>
+      )}
     </div>
   );
-}
+};

@@ -4,6 +4,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useInViewAnimation } from "../hooks/useInViewAnimation";
+import { Button } from "./ui/button";
 
 interface FAQProps {
   question: string;
@@ -55,47 +57,56 @@ const FAQList: FAQProps[] = [
 ];
 
 export const FAQ = () => {
+  const [ref, inView] = useInViewAnimation();
+
   return (
     <section
+      ref={ref}
       id="faq"
       className="container py-24 sm:py-32 bg-white dark:bg-gray-950"
     >
-      <h2 className="text-3xl md:text-4xl font-bold mb-4">
-        Frequently Asked{" "}
-        <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
-          Questions
-        </span>
-      </h2>
-
-      <Accordion
-        type="single"
-        collapsible
-        className="w-full AccordionRoot"
-      >
-        {FAQList.map(({ question, answer, value }: FAQProps) => (
-          <AccordionItem
-            key={value}
-            value={value}
-          >
-            <AccordionTrigger className="text-left">
-              {question}
-            </AccordionTrigger>
-
-            <AccordionContent>{answer}</AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
-
-      <h3 className="font-medium mt-4">
-        Still have questions?{" "}
-        <a
-          rel="noreferrer noopener"
-          href="#"
-          className="text-primary transition-all border-primary hover:border-b-2"
+      <div className={`flex flex-col items-center justify-center space-y-4 text-center mb-12 transition-all duration-700 motion-safe:animate-fade-in ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+        <div className="space-y-2">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            Frequently Asked Questions
+          </h2>
+          <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
+            Everything you need to know about our AI personal trainer platform
+          </p>
+        </div>
+      </div>
+      <div className="mx-auto max-w-2xl">
+        <Accordion
+          type="single"
+          collapsible
+          className="w-full AccordionRoot"
         >
-          Contact us
-        </a>
-      </h3>
+          {FAQList.map(({ question, answer, value }: FAQProps, index) => (
+            <AccordionItem
+              key={value}
+              value={value}
+              className={`mb-4 transition-all duration-700 motion-safe:animate-fade-in ${
+                inView ? `opacity-100 translate-y-0 delay-${(index + 1) * 100}` : "opacity-0 translate-y-8"
+              } hover:scale-[1.02] hover:shadow-lg focus-within:scale-[1.02] focus-within:shadow-lg cursor-pointer`}
+            >
+              <AccordionTrigger className="text-lg font-medium">
+                {question}
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-600 dark:text-gray-400">
+                {answer}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </div>
+      <div className="mt-12 flex flex-col items-center gap-4">
+        <Button size="lg" className="bg-primary hover:bg-primary/90 transition-transform duration-200 hover:scale-105 focus:scale-105 active:scale-95 shadow-lg">
+          Start Free Trial
+        </Button>
+        <Button size="lg" variant="outline" className="transition-transform duration-200 hover:scale-105 focus:scale-105 active:scale-95">
+          Contact Support
+        </Button>
+      </div>
     </section>
   );
 };

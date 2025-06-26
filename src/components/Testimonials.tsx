@@ -1,4 +1,5 @@
 import { Star } from "lucide-react";
+import { useInViewAnimation } from "../hooks/useInViewAnimation";
 
 export function Testimonials() {
   const testimonials = [
@@ -52,10 +53,12 @@ export function Testimonials() {
     },
   ];
 
+  const [ref, inView] = useInViewAnimation();
+
   return (
-    <section id="testimonials" className="py-24 bg-white dark:bg-gray-950">
+    <section ref={ref} id="testimonials" className="py-24 bg-white dark:bg-gray-950">
       <div className="container px-4 mx-auto">
-        <div className="max-w-3xl mx-auto text-center mb-16">
+        <div className={`max-w-3xl mx-auto text-center mb-16 transition-all duration-700 motion-safe:animate-fade-in ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <h2 className="text-4xl font-bold tracking-tight mb-4">
             Trusted by People Like You
           </h2>
@@ -65,10 +68,12 @@ export function Testimonials() {
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto">
-          {testimonials.map((testimonial) => (
+          {testimonials.map((testimonial, index) => (
             <div
               key={testimonial.name}
-              className="relative p-8 bg-gray-50 dark:bg-gray-900 rounded-2xl"
+              className={`relative p-8 bg-gray-50 dark:bg-gray-900 rounded-2xl transition-all duration-700 motion-safe:animate-fade-in ${
+                inView ? `opacity-100 translate-y-0 delay-${(index + 1) * 100}` : "opacity-0 translate-y-8"
+              } hover:scale-105 hover:shadow-xl focus-within:scale-105 focus-within:shadow-xl cursor-pointer`}
             >
               <div className="flex items-center mb-6">
                 <img

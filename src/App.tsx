@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { FAQ } from "./components/FAQ";
 import { Features } from "./components/Features";
 import { Hero } from "./components/Hero";
@@ -10,21 +11,45 @@ import { WaitlistForm } from "./components/WaitlistForm";
 import { StickyBar } from "./components/StickyBar";
 import { BlogPreview } from "./components/BlogPreview";
 import { BlogPost } from "./pages/BlogPost";
+import { Loader } from "./components/Loader";
 import "./App.css";
 
 function Home() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) return <Loader />;
+
   return (
     <>
       <Navbar />
       <main>
-        <Hero />
-        <Features />
-        <Benefits />
-        <Testimonials />
-        <BlogPreview />
-        <Pricing />
-        <FAQ />
-        <section id="waitlist-form" className="py-24 bg-gray-50 dark:bg-gray-900">
+        <section className="animate-fade-in transition duration-700 ease-in-out">
+          <Hero />
+        </section>
+        <section className="animate-slide-in-up transition duration-700 ease-in-out delay-100">
+          <Features />
+        </section>
+        <section className="animate-fade-in transition duration-700 ease-in-out delay-200">
+          <Benefits />
+        </section>
+        <section className="animate-slide-in-up transition duration-700 ease-in-out delay-300">
+          <Testimonials />
+        </section>
+        <section className="animate-fade-in transition duration-700 ease-in-out delay-400">
+          <BlogPreview />
+        </section>
+        <section className="animate-slide-in-up transition duration-700 ease-in-out delay-500">
+          <Pricing />
+        </section>
+        <section className="animate-fade-in transition duration-700 ease-in-out delay-600">
+          <FAQ />
+        </section>
+        <section id="waitlist-form" className="py-24 bg-gray-50 dark:bg-gray-900 animate-fade-in transition duration-700 ease-in-out delay-700">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
               <div className="space-y-2">
